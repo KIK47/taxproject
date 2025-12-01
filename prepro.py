@@ -3,6 +3,7 @@ import cv2
 from pdf2image import convert_from_path
 from PyPDF2 import PdfReader
 import os 
+import pypdfium2 as pdfium
 
 class FileHandler:
     
@@ -30,17 +31,30 @@ class FileHandler:
     def pdf_first_page_to_image(self, output_dir="output", dpi=300):
         """
         แปลงหน้าแรกของ PDF เป็นไฟล์รูป แล้วคืน path กลับไป
+        (แก้ไขให้ใช้ pypdfium2 เพื่อรองรับ Render)
         """
         os.makedirs(output_dir, exist_ok=True)
 
-        images = convert_from_path(
-            self.filepath,
-            dpi=dpi,
-            first_page=1,
-            last_page=1
-        )
+        # ✅ โค้ดใหม่: ใช้ pypdfium2 อ่าน PDF
+        pdf = pdfium.PdfDocument(self.filepath)
+        
+        # เลือกหน้าแรก (index 0)
+        page = pdf[0]
+        
+        # คำนวณ scale เพื่อให้ได้ DPI ตามต้องการ (Default PDF คือ 72 dpi)
+        scale = dpi / 72
+        
+        # Render เป็นภาพ
+        bitmap = page.render(scale=scale)
+        pil_image = bitmap.to_pil()
+        
+        # บันทึกไฟล์
         img_path = os.path.join(output_dir, "page1_from_pdf.jpg")
-        images[0].save(img_path, "JPEG")
+        pil_image.save(img_path, "JPEG")
+        
+        # ปิดไฟล์ PDF เพื่อคืน Ram
+        pdf.close() 
+        
         return img_path
     
 class ImageProcessor:
