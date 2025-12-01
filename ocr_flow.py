@@ -34,11 +34,19 @@ class TransactionExtractor:
         file_type = file_handler.check_file_type()
 
         if file_type == "pdf":
-            images = file_handler.pdf_to_images(dpi=self.dpi)
+        # ✅ ใช้หน้าแรกของ PDF แปลงเป็นรูป แล้วใส่ลง list
+            first_image = file_handler.pdf_first_page_to_image(
+                output_dir=self.output_dir,
+                dpi=self.dpi
+            )
+            images = [first_image]
+
         elif file_type == "image":
+            # รูปธรรมดา ก็ใส่เป็น list 1 รูป
             images = [file_handler.filepath]
+
         else:
-            raise ValueError("ไฟล์ไม่รองรับ")
+            return {"ok": False, "error": "ไม่รองรับไฟล์นี้"}
         
         print(images)
 

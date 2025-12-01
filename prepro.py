@@ -2,6 +2,7 @@ import mimetypes
 import cv2
 from pdf2image import convert_from_path
 from PyPDF2 import PdfReader
+import os 
 
 class FileHandler:
     
@@ -19,12 +20,28 @@ class FileHandler:
             return "unknown"  # คืนค่าเป็นสตริง "unknown"
         
         # ฟังก์ชันนับหน้าจาก PDF
-    def count_pages(self):
-        reader = PdfReader(self.filepath)
-        return len(reader.pages)
+    # def count_pages(self):
+    #     reader = PdfReader(self.filepath)
+    #     return len(reader.pages)
     
     def pdf_to_images(self, dpi=300):
         return convert_from_path(self.filepath, dpi=dpi)
+    
+    def pdf_first_page_to_image(self, output_dir="output", dpi=300):
+        """
+        แปลงหน้าแรกของ PDF เป็นไฟล์รูป แล้วคืน path กลับไป
+        """
+        os.makedirs(output_dir, exist_ok=True)
+
+        images = convert_from_path(
+            self.filepath,
+            dpi=dpi,
+            first_page=1,
+            last_page=1
+        )
+        img_path = os.path.join(output_dir, "page1_from_pdf.jpg")
+        images[0].save(img_path, "JPEG")
+        return img_path
     
 class ImageProcessor:
     
