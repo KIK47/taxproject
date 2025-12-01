@@ -24,8 +24,8 @@ class FileHandler:
     #     reader = PdfReader(self.filepath)
     #     return len(reader.pages)
     
-    def pdf_to_images(self, dpi=300):
-        return convert_from_path(self.filepath, dpi=dpi)
+    # def pdf_to_images(self, dpi=300):
+    #     return convert_from_path(self.filepath, dpi=dpi)
     
     def pdf_first_page_to_image(self, output_dir="output", dpi=300):
         """
