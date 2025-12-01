@@ -1,7 +1,7 @@
 import mimetypes
 import cv2
-from pdf2image import convert_from_path
-from PyPDF2 import PdfReader
+# from pdf2image import convert_from_path
+# from PyPDF2 import PdfReader
 import os 
 import pypdfium2 as pdfium
 
