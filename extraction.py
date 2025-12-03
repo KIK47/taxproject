@@ -2,8 +2,6 @@ import os, re, json
 from openai import OpenAI
 from dotenv import load_dotenv
 from json.decoder import JSONDecodeError
-from google import genai
-
 
 class InvoiceExtractor:
     def __init__(self, markdown):
