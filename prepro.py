@@ -70,6 +70,7 @@ class ImageProcessor:
 
         # Resize 2x (Upscale)
         resized = cv2.resize(gray, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
+        # resized = gray
 
         # Adaptive Threshold
         thresh = cv2.adaptiveThreshold(
