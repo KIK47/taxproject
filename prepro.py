@@ -69,7 +69,7 @@ class ImageProcessor:
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
         # Resize 2x (Upscale)
-        resized = cv2.resize(gray, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
+        resized = cv2.resize(gray, None, fx=1.1, fy=1.1, interpolation=cv2.INTER_CUBIC)
         #resized = gray
 
         # Adaptive Threshold
