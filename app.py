@@ -5,6 +5,7 @@ from database import save_upload_history
 
 # import workflow modules
 # แก้ไขบล็อก import ใน app.py
+IMPORT_ERROR = None
 try:
     from prepro import FileHandler
     from ocr_flow import OCRService, TransactionExtractor
@@ -13,8 +14,11 @@ try:
     from condition import check_condition
     WORKFLOW_AVAILABLE = True
 except Exception as e: # <--- เพิ่ม as e
-    print("FATAL IMPORT ERROR! Workflow disabled:", e) # <--- ตรวจสอบการดึงฟังก์ชัน
+    IMPORT_ERROR = repr(e)
+    print("FATAL IMPORT ERROR! Workflow disabled:", e)
     WORKFLOW_AVAILABLE = False
+
+
 
 APP_DIR = os.path.dirname(__file__)
 FRONTEND_DIR = os.path.abspath(os.path.join(APP_DIR, "..", "frontend"))
@@ -28,8 +32,16 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # <--- การต่อหน้าบ้านเเละการสร้างโฟลเดอร์
 
+
 app = Flask(__name__, static_folder=FRONTEND_DIR, static_url_path="/")
 CORS(app)
+
+@app.route("/api/debug_import", methods=["GET"])
+def debug_import():
+    return jsonify({
+        "workflow_available": WORKFLOW_AVAILABLE,
+        "import_error": IMPORT_ERROR,
+    })
 
 @app.route("/")
 def index():
