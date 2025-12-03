@@ -28,7 +28,7 @@ class FileHandler:
     # def pdf_to_images(self, dpi=300):
     #     return convert_from_path(self.filepath, dpi=dpi)
     
-    def pdf_first_page_to_image(self, output_dir="output", dpi=250):
+    def pdf_first_page_to_image(self, output_dir="output", dpi=300):
         """
         แปลงหน้าแรกของ PDF เป็นไฟล์รูป แล้วคืน path กลับไป
         (แก้ไขให้ใช้ pypdfium2 เพื่อรองรับ Render)
@@ -69,8 +69,7 @@ class ImageProcessor:
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
         # Resize 2x (Upscale)
-        # resized = cv2.resize(gray, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
-        resized = gray
+        resized = cv2.resize(gray, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
 
         # Adaptive Threshold
         thresh = cv2.adaptiveThreshold(

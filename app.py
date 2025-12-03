@@ -38,6 +38,11 @@ def index():
 # ==========================================
 # เพิ่มส่วนนี้ลงไป เพื่อรับค่าจากหน้ากรอกมือ
 # ==========================================
+@app.route("/api/health", methods=["GET"])
+def api_health():
+    return jsonify({"ok": True, "message": "backend is alive"}), 200
+
+
 @app.route("/api/check", methods=["POST"])
 def check_manual():
     try:
