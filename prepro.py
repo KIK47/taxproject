@@ -40,6 +40,11 @@ class FileHandler:
         
         # เลือกหน้าแรก (index 0)
         page = pdf[0]
+
+        w_pt, h_pt = page.get_size()
+        w_px = int(w_pt * dpi / 72)
+        h_px = int(h_pt * dpi / 72)
+        print(f"[DEBUG] PDF page size ≈ {w_px} x {h_px} px at {dpi} DPI")
         
         # คำนวณ scale เพื่อให้ได้ DPI ตามต้องการ (Default PDF คือ 72 dpi)
         scale = dpi / 72
